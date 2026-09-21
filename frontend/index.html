@@ -10,30 +10,74 @@
     <header class="p-3 bg-dark text-white">
         <div class="container">
             <h1 class="mt-3">Welcome to full stack deployment</h1>
-            <p>This is a full end-to-end application deployed with Docker Compose with separate containers for Nginx frontend, NodeJS backend, and MySQL database.</p>
+            <p>This is a full end-to-end application deployed with multiple containers for HTTPD frontend, NodeJS backend, and MySQL database.</p>
             <div id="time">Loading...</div>
             <div id="visits">Loading...</div>
             <div id="status">Loading...</div>
         </div>
-    </header>
-    <section class="container">
+    </header>  
+    <section class="container mt-3">
+        <h2>Documentation</h2>
         <div class="p-3">
-            <h2>Answers</h2>
-            <div class="card mt-3 p-3 ">
-                <p class=" h5 mt-1"><strong>test</strong></p>
+            <div class="row gap-3">
+                <div class="card border-dark col p-3 mb-3 ">
+                    <h4><strong>Scalability</strong></h4>
+                    <p>In Rahti it is easy to deploy more replicas with a click of a button.</p>
+                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/backendoverview.png" alt="">
+                    <p>The frontend accesses the backend through a cluster IP that represents multiple pods/devices with a single IP. Kubernetes takes this one step further providing load balacing in the internal network. </p>
+                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/backendpods.png" alt="">
+                    <p>Scaling the backend allows for more through put of requests to a certain point in which the database might not be able to handle the queries but with such a simple demo it is almost impossible for the database to be overwelmed.</p>
+                </div>
+                <div class="col-8">
+                    <div class="row gap-2">
+                        <div class="card border-dark col p-3 mb-3">
+                            <h4><strong>Persistence</strong></h4>
+                            <p>I terminated the pod, and after creating a new pod the data was still the same.</p>
+                            <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/dbpods.png" alt="">
+                            
+                            <p>There is a persistent volume which stores the database's data outside the containers.</p>
+                            <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/Volume.png" alt="">
+                            <p>The database deployment is bound to this volume which saves the changes made in the MySQL.</p>
+                        </div>
+                        <div class="card border-dark p-3 mb-3">
+                            <h4><strong>Pod recovery</strong></h4>
+                            <p>Terminating a backend pod manually automatically start a new backend pod.</p>
+                            <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/backendtermination.png" alt="">
+                            <p>It is Kubernetes continuously compares your current running pods with your target configuration. Not Rahti.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                
             </div>
-        </div>
-    </section>     
-    <section class="container">
-        
-        <div class="p-3">
-            <h2>Documentation</h2>
-
-            <div class="card mt-3 p-3">
-                <p class="h5 mt-1"><strong>test</strong></p>
-                <img src="" alt="">
+            
+            <div class="row gap-3">
+                <div class="card border-dark col p-3">
+                    <h4><strong>Flowchart</strong></h4>
+                    <p>Here is a flowchart of how the frontend, backend, and database communicate between each other.</p>
+                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/Flowchart.png" alt="">
+                    <p>On this website the fetch request requests the <code>:host:/api/time</code> and makes the backend query the MySQL server for the current time <code>SELECT NOW() as time</code> and returns it back to the frontend as a JSON object.</p>
+                </div>
+                <div class="card border-dark col p-3">
+                    <h4><strong>ConfigMap vs. Secrets</strong></h4>
+                    <p>ConfigMaps are for non-sensitive configuration data like environmental variables, config files, and URLs. Stores as plaintext.</p>
+                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/environment.png" alt="">
+                    <p>While Secrets are for confidental secure configuration data like passwords, private keys, and TLS certificates. Stores as base64 encoded string.</p>
+                </div>
+                <div class="card border-dark p-3 mb-3">
+                    <h4><strong>Difficulties</strong></h4>
+                    <ul>
+                        <li>Most of my problems arrived from not realizing that the YAML files are given for the assignment by the teacher instead of trying to figure out how to do everything by yourself.</li>
+                        <li>Connecting the backend to the database had some problem with missing matching environmental variables and limited testing possibilities locally.</li>
+                        <li>Version control through Docker Hub didn't work either for most part of the development process thus I had to resort to manually deleting the old images.</li>
+                    </ul>
+                </div>
+                <div class="card border-dark p-3 mb-3">
+                    <h4><strong>Proof</strong></h4>
+                    <p>Image of the whole project on oc Rahti.</p>
+                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/ocgetall.png" alt="">
+                </div>
             </div>
-
         </div>
     </section>    
     <footer>
@@ -47,28 +91,28 @@
         postVisit()
         getTime()
         getStatus()
-        setInterval(getTime,1000)
-        setInterval(getVisits,1000)
+        
+        setInterval(function(){getVisits();getTime();},1000)
         function getTime(){
-            fetch('/time')
+            fetch('/api/time')
             .then(res => res.json())
             .then(data => { document.getElementById('time').innerText ="Current server time: "+data.time; })
             .catch(err => { document.getElementById('time').innerText = 'API error: ' + err; });
         }
         function getVisits(){
-            fetch('/visits')
+            fetch('/api/visits')
             .then(res => res.json())
             .then(data => { document.getElementById('visits').innerText ="Visits: "+data.count; })
             .catch(err => { document.getElementById('visits').innerText = 'API error: ' + err; });
         }
         function postVisit(){
-            fetch('/visit', {method:"POST"})
+            fetch('/api/visit', {method:"POST"})
             .then(res => res.json())
             .then(data => { document.getElementById('visits').innerText ="Visits: "+data.count; })
             .catch(err => { document.getElementById('visits').innerText = 'API error: ' + err; });
         }
         function getStatus(){
-            fetch('/status')
+            fetch('/api/status')
             .then(res => res.json())
             .then(data => { document.getElementById('status').innerText ="Backend status: "+data.status; })
             .catch(err => { document.getElementById('status').innerText = 'API error: ' + err; });
