@@ -10,75 +10,68 @@
     <header class="p-3 bg-dark text-white">
         <div class="container">
             <h1 class="mt-3">Welcome to full stack deployment</h1>
-            <p>This is a full end-to-end application deployed with multiple containers for HTTPD frontend, NodeJS backend, and MySQL database.</p>
+            <p>This is a full end-to-end application deployed with multiple containers for HTTPD frontend, NodeJS backend, and MySQL database. Inclding also a public API integration which searches song lyrics.</p>
             <div id="time">Loading...</div>
             <div id="visits">Loading...</div>
             <div id="status">Loading...</div>
         </div>
     </header>  
     <section class="container mt-3">
-        <h2>Documentation</h2>
+        
         <div class="p-3">
-            <div class="row gap-3">
-                <div class="card border-dark col p-3 mb-3 ">
-                    <h4><strong>Scalability</strong></h4>
-                    <p>In Rahti it is easy to deploy more replicas with a click of a button.</p>
-                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/backendoverview.png" alt="">
-                    <p>The frontend accesses the backend through a cluster IP that represents multiple pods/devices with a single IP. Kubernetes takes this one step further providing load balacing in the internal network. </p>
-                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/backendpods.png" alt="">
-                    <p>Scaling the backend allows for more through put of requests to a certain point in which the database might not be able to handle the queries but with such a simple demo it is almost impossible for the database to be overwelmed.</p>
-                </div>
-                <div class="col-8">
-                    <div class="row gap-2">
-                        <div class="card border-dark col p-3 mb-3">
-                            <h4><strong>Persistence</strong></h4>
-                            <p>I terminated the pod, and after creating a new pod the data was still the same.</p>
-                            <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/dbpods.png" alt="">
-                            
-                            <p>There is a persistent volume which stores the database's data outside the containers.</p>
-                            <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/Volume.png" alt="">
-                            <p>The database deployment is bound to this volume which saves the changes made in the MySQL.</p>
-                        </div>
-                        <div class="card border-dark p-3 mb-3">
-                            <h4><strong>Pod recovery</strong></h4>
-                            <p>Terminating a backend pod manually automatically start a new backend pod.</p>
-                            <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/backendtermination.png" alt="">
-                            <p>It is Kubernetes continuously compares your current running pods with your target configuration. Not Rahti.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                
+            <h2>Public API lyrics getter <small class="h6">Using <a href="https://lyricsovh.docs.apiary.io/#">https://lyricsovh.docs.apiary.io/#</a></small></h2>
+            <label for="">Artist <input type="text" name="artist" id="artist" placeholder="Artist"></label>
+            <label for="">Song Name <input type="text" name="song" id="song" placeholder="Song name"></label>
+            <input type="submit" onclick="getLyrics()">
+            <p id="lyrics"></p>
+        </div>
+    </section> 
+    <section class="container mt-3">
+        
+        <div class="p-3">
+            <h2>Questions & Answers</h2>
+            <div><strong><p>Explain the difference between SAML and OAuth. When would a company choose one over the other?</p></strong>
+            <p>SAML is an open authentication protocol usually used for office environments, where the user must log on to access a part of the system. Examples which companies might use SAML in are Microsoft 365 Sign in, Salesforce a customer management application, etc. Usually these application authenticated with SAML are part of the company's intranet in which the user verifies their identity. Network admins can manage users from a central location and specify what that user can access.</p>
+            <p>OAuth is an open authentication framework to give limited access to user's data to verify their identity without exposing passwords. OAuth uses third-party API to verify the legimacy of the user when authenticating. Usually OAuth is used in mobile apps, APIs and small web applications. To secure micro services, enable third-party integrations or to save on bandwidth compared to SAML.</p>
+
+            <p>OAuth is ofter used for outside the network connections in which you need to verify the user with a trustworthy API like Meta, Github or etc. SAML is used for more inside the network connections to verify user's identity with passwords.</p>
             </div>
+
+            <div><strong><p>Explain what a peer-to-peer VPN (for example n2n) is used for, and how it differs from a traditional site-to-site VPN.</p></strong>
             
-            <div class="row gap-3">
-                <div class="card border-dark col p-3">
-                    <h4><strong>Flowchart</strong></h4>
-                    <p>Here is a flowchart of how the frontend, backend, and database communicate between each other.</p>
-                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/Flowchart.png" alt="">
-                    <p>On this website the fetch request requests the <code>:host:/api/time</code> and makes the backend query the MySQL server for the current time <code>SELECT NOW() as time</code> and returns it back to the frontend as a JSON object.</p>
-                </div>
-                <div class="card border-dark col p-3">
-                    <h4><strong>ConfigMap vs. Secrets</strong></h4>
-                    <p>ConfigMaps are for non-sensitive configuration data like environmental variables, config files, and URLs. Stores as plaintext.</p>
-                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/environment.png" alt="">
-                    <p>While Secrets are for confidental secure configuration data like passwords, private keys, and TLS certificates. Stores as base64 encoded string.</p>
-                </div>
-                <div class="card border-dark p-3 mb-3">
-                    <h4><strong>Difficulties</strong></h4>
-                    <ul>
-                        <li>Most of my problems arrived from not realizing that the YAML files are given for the assignment by the teacher instead of trying to figure out how to do everything by yourself.</li>
-                        <li>Connecting the backend to the database had some problem with missing matching environmental variables and limited testing possibilities locally.</li>
-                        <li>Version control through Docker Hub didn't work either for most part of the development process thus I had to resort to manually deleting the old images.</li>
-                    </ul>
-                </div>
-                <div class="card border-dark p-3 mb-3">
-                    <h4><strong>Proof</strong></h4>
-                    <p>Image of the whole project on oc Rahti.</p>
-                    <img src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/ocgetall.png" alt="">
-                </div>
+            <p>A peer-to-peer VPN creates a direct connection to different nodes included in the network vs. a traditional site-to-site VPN connects two or more fixed networks together throught a centralized gateway router.</p>
+            <p>Some P2P VPNs use cases are for: remote workers so they can access their workstations, IoT devices when managing them so the don't have to expose port to the public and getting around CGNAT or NAT configs like movile networks, public Wi-Fi or home internet. <strike>This last one I have experience with using a modem and trying to play video games with a friend but the NAT settings don't allow port forwarding so we used ZeroTier.</strike></p>
+
+            <p>While a traditional site-to-site VPN connects two fixed networks (e.g. an office and a data center) through a small number of gateway devices, with all traffic between the two sites routed through those gateways - a hub-and-spoke or point-to-point topology decided at configuration time.</p>
+
+
+            </div>
+
+            <div><strong><p>What is a Web Application Firewall (WAF) and what kinds of attacks does it defend against? Where would you place one in the three-container architecture you built in Week 4 (Route → frontend → backend → db)?</p></strong>
+            <p>The Web Application Firewall (WAF) exists between the client and a web applciation and inspects HTTP(S) traffic at the application layer. WAF looks for suspicious patterns that match already known attacks.
+            </p>
+            <p>WAF is deployed in the very front of the application between the public internet and frontend application. On Rahti it is Plced in from on the Route and checks all external request before they get to the Nginx/Nodejs Fronend in my case.</p>
+            <h5>List of different attacks WAF defends against.</h5>
+            <ul>
+                <li>SQL Injections</li>
+                <li>Cross-site scripting</li>
+                <li>Cross-site request forgery</li>
+                <li>Request-based DDoS</li>
+                <li>Known bad signatures</li>
+            </ul>
+            
+            </div>
+
+            <div><strong><p>What is YAML and why has it become the default configuration format for Kubernetes/Rahti manifests? Compare it briefly to JSON.</p></strong>
+            <p>YAML ("YAML Ain't Markup Language") is a human-written configuration management and DevOps tooling model with comment support, multi-document streams (Allows you to create multiple related objects in one deployment) and clear readability with it's Python-like indentation.</p>
+            <p>YAML is usually slower to parse due to it's more advanced logic than JSON. YAML has native comment support while JSON does not. JSON is used for machine-to-machine data tranfers and web APIs while YAML is used for humanmade configuration files. Every valid JSON document is also valid YAML; YAML is a strict superset of JSON.</p>
             </div>
         </div>
+        <div class="p-3">
+            <h2>Documentation</h2>
+            <p>I will finish this tmrw on 1.10.26</p>
+        </div>
+        
     </section>    
     <footer>
         <div class="p-3 bg-dark text-white">
@@ -117,6 +110,26 @@
             .then(data => { document.getElementById('status').innerText ="Backend status: "+data.status; })
             .catch(err => { document.getElementById('status').innerText = 'API error: ' + err; });
         }
+        function getLyrics(){
+            const artist = document.getElementById("artist").value;
+            const song = document.getElementById("song").value;
+            if (artist && song) { 
+                fetch(`/api/lyrics?artist=${artist}&song=${song}`)
+                .then(res => res.json())
+                .then(data => { 
+                    if (data.lyrics) {
+                        document.getElementById('lyrics').innerText = data.lyrics; 
+                    } else {
+                        document.getElementById('lyrics').innerText = 'Lyrics not found or External API error.';
+                    }
+                }) 
+                .catch(err => { document.getElementById('lyrics').innerText = 'API error: ' + err; });
+            } else {
+                document.getElementById('lyrics').innerText = 'Please enter valid artist and song';
+            }
+            
+        }
+
     </script>
 </body>
 </html>

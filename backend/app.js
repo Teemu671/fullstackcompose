@@ -5,6 +5,7 @@ const { join } = require('node:path');
 const app = express();
 const server = createServer(app);
 
+const LYRICS_URI = process.env.LYRICS_URI || "http://localhost:8001";
 // app.use(express.json());
 // app.use(express.urlencoded());
 
@@ -36,6 +37,36 @@ app.post('/visit',async (req, res)=>{
 app.get('/status',async (req, res)=>{
     return res.status(200).json({status:"OK"})
 });
+
+app.get('/lyrics', async (req, res) => {
+    const artist = req.query?.artist;
+    const song = req.query?.song;
+
+    if (!artist || !song) {
+        return res.status(400).json({ error: 'Missing artist or song parameter' });
+    }
+
+    try {
+        const apiResponse = await fetch(`${LYRICS_URI}/lyrics/?artist=${encodeURIComponent(artist)}&song=${encodeURIComponent(song)}`);
+
+        if (!apiResponse.ok) {
+            return res.status(apiResponse.status).json({ error: "External API error." });
+        }
+
+        const data = await apiResponse.json();
+
+        if (data.error) {
+            return res.status(404).json({ error: data.error });
+        }
+
+        return res.json({ lyrics: data.lyrics || 'No lyrics text returned' });
+
+    } catch (error) {
+        console.error('Server Error:', error);
+        return res.status(500).json({ error: 'Internal server error fetching lyrics' });
+    }
+});
+
 
 
 
