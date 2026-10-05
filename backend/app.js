@@ -92,7 +92,7 @@ app.get('/readyz', async (req, res) => {
         const [rows,fields] = await newPool.promise().query(sql)
         console.log(JSON.stringify({
                 timestamp: new Date().toISOString(),
-                probeType: req.path,
+                method: req.method,
                 path: req.path,
                 statusCode: res.statusCode
             }))
