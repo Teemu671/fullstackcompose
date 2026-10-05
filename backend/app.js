@@ -11,6 +11,14 @@ const LYRICS_URI = process.env.LYRICS_URI || "http://localhost:8001";
 
 const { newPool } = require('./db.js')
 
+//old status
+app.get('/status',async (req, res)=>{
+    return res.status(200).json({status:"OK"})
+});
+
+
+//database api
+
 app.get('/time',async (req, res)=>{
     const sql = `SELECT NOW() as time`
     //await newPool.promise().execute('UPDATE test SET count=count+1;')
@@ -34,10 +42,9 @@ app.post('/visit',async (req, res)=>{
     return res.status(200).json(result)
 });
 
-app.get('/status',async (req, res)=>{
-    return res.status(200).json({status:"OK"})
-});
 
+
+//public api week 5
 app.get('/lyrics', async (req, res) => {
     const artist = req.query?.artist;
     const song = req.query?.song;
@@ -68,8 +75,39 @@ app.get('/lyrics', async (req, res) => {
 });
 
 
+//status, health, ready
+app.get('/healthz', (req, res) => {
+    console.log(JSON.stringify({
+                timestamp: new Date().toISOString(),
+                method: req.method,
+                path: req.path,
+                statusCode: res.statusCode
+            }))
+    return res.status(200).send('ok');
+});
 
+app.get('/readyz', async (req, res) => {
+    try {
+        const sql = `SELECT 1 AS ping`
+        const [rows,fields] = await newPool.promise().query(sql)
+        console.log(JSON.stringify({
+                timestamp: new Date().toISOString(),
+                probeType: req.path,
+                path: req.path,
+                statusCode: res.statusCode
+            }))
+        return res.status(200).send('ready')
+    } catch (err) {
+        console.error(JSON.stringify({
+            timestamp: new Date().toISOString(),
+            level: 'ERROR',
+            message: 'Database connection failed',
+            error: err.message
+        }));
+        return res.status(503).send('database disconnected');
+    }
+});
 
 server.listen(8000, () => {
-  console.log('server running at http://localhost:8000');
+    console.log('server running at http://localhost:8000');
 });

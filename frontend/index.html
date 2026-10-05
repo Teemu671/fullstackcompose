@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rahti deployment Week 3</title>
+    <title>Rahti deployment Week 5</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
@@ -16,8 +16,43 @@
             <div id="status">Loading...</div>
         </div>
     </header>  
+
     <section class="container mt-3">
-        
+        <div class="p-3 d-flex flex-column gap-3">
+            <h2>Week 6</h2>
+            <p>Not ready yet, please wait till end of 5.10.2026</p>
+        </div>
+        <div class="p-3 d-flex flex-column gap-3">
+            <h2>Questions & Answers Week 6</h2>
+            <div class="card p-3"><strong><p>Explain the difference between Continuous Integration, Continuous Delivery and Continuous Deployment.</p></strong>
+            
+           </div>
+
+            <div class="card p-3"><strong><p>Explain the difference between a liveness probe and a readiness probe in Kubernetes/Rahti. What happens when each one fails?</p></strong>
+            
+            </div>
+
+            <div class="card p-3"><strong><p>What are the three pillars of observability (metrics, logs, traces)? Give an example of a question each one is best suited to answer.</p></strong>
+            
+            </div>
+
+            <div class="card p-3"><strong><p>Describe the structure of a GitHub Actions workflow (triggers, jobs, steps). What would a minimal pipeline for the app you built in Week 4/5 need to do?</p></strong>
+
+            </div>
+        </div>
+        <div class="p-3 d-flex flex-column gap-3">
+            <h2>Documentation Week 6</h2>
+            <div class="card p-3">
+
+
+            </div>
+            <div class="card p-3">
+                <h3>Problems</h3>
+
+            </div>
+         </div>
+    </section>
+    <section class="container mt-3">
         <div class="p-3">
             <h2>Public API lyrics getter <small class="h6">Using <a href="https://lyricsovh.docs.apiary.io/#">https://lyricsovh.docs.apiary.io/#</a></small></h2>
             <label for="">Artist <input type="text" name="artist" id="artist" placeholder="Artist"></label>
@@ -27,17 +62,16 @@
         </div>
     </section> 
     <section class="container mt-3">
-        
-        <div class="p-3">
-            <h2>Questions & Answers</h2>
-            <div><strong><p>Explain the difference between SAML and OAuth. When would a company choose one over the other?</p></strong>
+        <div class="p-3 d-flex flex-column gap-3">
+            <h2>Questions & Answers Week 5</h2>
+            <div class="card p-3"><strong><p>Explain the difference between SAML and OAuth. When would a company choose one over the other?</p></strong>
             <p>SAML is an open authentication protocol usually used for office environments, where the user must log on to access a part of the system. Examples which companies might use SAML in are Microsoft 365 Sign in, Salesforce a customer management application, etc. Usually these application authenticated with SAML are part of the company's intranet in which the user verifies their identity. Network admins can manage users from a central location and specify what that user can access.</p>
-            <p>OAuth is an open authentication framework to give limited access to user's data to verify their identity without exposing passwords. OAuth uses third-party API to verify the legimacy of the user when authenticating. Usually OAuth is used in mobile apps, APIs and small web applications. To secure micro services, enable third-party integrations or to save on bandwidth compared to SAML.</p>
+            <p >OAuth is an open authentication framework to give limited access to user's data to verify their identity without exposing passwords. OAuth uses third-party API to verify the legimacy of the user when authenticating. Usually OAuth is used in mobile apps, APIs and small web applications. To secure micro services, enable third-party integrations or to save on bandwidth compared to SAML.</p>
 
             <p>OAuth is ofter used for outside the network connections in which you need to verify the user with a trustworthy API like Meta, Github or etc. SAML is used for more inside the network connections to verify user's identity with passwords.</p>
             </div>
 
-            <div><strong><p>Explain what a peer-to-peer VPN (for example n2n) is used for, and how it differs from a traditional site-to-site VPN.</p></strong>
+            <div class="card p-3"><strong><p>Explain what a peer-to-peer VPN (for example n2n) is used for, and how it differs from a traditional site-to-site VPN.</p></strong>
             
             <p>A peer-to-peer VPN creates a direct connection to different nodes included in the network vs. a traditional site-to-site VPN connects two or more fixed networks together throught a centralized gateway router.</p>
             <p>Some P2P VPNs use cases are for: remote workers so they can access their workstations, IoT devices when managing them so the don't have to expose port to the public and getting around CGNAT or NAT configs like movile networks, public Wi-Fi or home internet. <strike>This last one I have experience with using a modem and trying to play video games with a friend but the NAT settings don't allow port forwarding so we used ZeroTier.</strike></p>
@@ -47,7 +81,7 @@
 
             </div>
 
-            <div><strong><p>What is a Web Application Firewall (WAF) and what kinds of attacks does it defend against? Where would you place one in the three-container architecture you built in Week 4 (Route → frontend → backend → db)?</p></strong>
+            <div class="card p-3"><strong><p>What is a Web Application Firewall (WAF) and what kinds of attacks does it defend against? Where would you place one in the three-container architecture you built in Week 4 (Route → frontend → backend → db)?</p></strong>
             <p>The Web Application Firewall (WAF) exists between the client and a web applciation and inspects HTTP(S) traffic at the application layer. WAF looks for suspicious patterns that match already known attacks.
             </p>
             <p>WAF is deployed in the very front of the application between the public internet and frontend application. On Rahti it is Plced in from on the Route and checks all external request before they get to the Nginx/Nodejs Fronend in my case.</p>
@@ -62,15 +96,56 @@
             
             </div>
 
-            <div><strong><p>What is YAML and why has it become the default configuration format for Kubernetes/Rahti manifests? Compare it briefly to JSON.</p></strong>
+            <div class="card p-3"><strong><p>What is YAML and why has it become the default configuration format for Kubernetes/Rahti manifests? Compare it briefly to JSON.</p></strong>
             <p>YAML ("YAML Ain't Markup Language") is a human-written configuration management and DevOps tooling model with comment support, multi-document streams (Allows you to create multiple related objects in one deployment) and clear readability with it's Python-like indentation.</p>
             <p>YAML is usually slower to parse due to it's more advanced logic than JSON. YAML has native comment support while JSON does not. JSON is used for machine-to-machine data tranfers and web APIs while YAML is used for humanmade configuration files. Every valid JSON document is also valid YAML; YAML is a strict superset of JSON.</p>
             </div>
         </div>
-        <div class="p-3">
-            <h2>Documentation</h2>
-            <p>I will finish this tmrw on 1.10.26</p>
-        </div>
+        <div class="p-3 d-flex flex-column gap-3">
+            <h2>Documentation Week 5</h2>
+            <div >
+                <h3>New architecture and pods</h3>
+            <div class="d-flex flex-row flex-wrap gap-3 justify-content-center">  
+                <div class="card p-3">
+                    <img class="object-fit-md-contain" src="https://a3s.fi/swift/v1/week4-cloud-services-bucket/Flowchart.png" alt="Old architecture diagram">
+                    <p>The old diagram from week 4.</p>
+                </div>
+                <div class="card p-3">
+                    <img class="object-fit-md-contain" src="https://a3s.fi/swift/v1/week5-cloud-services/newarchitecture.png" alt="New architecture diagram">
+                    <p>The new diagram of the application</p>
+                </div>
+        
+                <div class="card p-3">
+                <img src="https://a3s.fi/swift/v1/week5-cloud-services/newpods.png" alt="New pods result from cmd">
+                <p>New pods result from cmd</p>
+                </div>
+            </div>
+            <p>There is a new service/pod called lyrics that is a nodejs backend application that only communicates with the main backend.</p>
+            </div>
+       
+       
+            <div class="card p-3">
+                <h3>Reflection</h3>
+                    <p>The biggest reliability concern is the dependency on a public API and the possibility of being <strong>rate limited</strong> from the service or failure of the lyrics backend service if many users use the application. </p>
+                    <p>Without the <strong>WAF</strong> from Rahti the application could be left vulnerable to exploit scanners, XSS via input form attacks and even SQL injection attempts discussed in part A.</p>
+                    <p>Hypothetically if I had used <strong>Redis</strong> to save the lyrics for a longer time reducing lookups from the public API it could have helped with the risk of being rate limited with little to <strong>no problem with cache invalidation</strong> because they can be cached long time as song lyrics are rarely changed after release.</p>
+                    <p>Using Redis for the MySQL could be problem due to the time being looked up constantly by the client, it would not update every second if Redis was used.</p>
+                    <p>Application did not use <strong>OAuth or Redis.</strong></p>
+                    
+
+            </div>
+            <div class="card p-3">
+                <h3>Problems</h3>
+                <ul>
+                    <li>Implemented the Redis and it worked for a while but when I came back to finish this assignment it had somehow become slow and didn't want to communicate correctly when testing locally. <br> <strong>Fix:</strong> I decided to scrap/leave it out and do the public API integration.</li>
+                    <li>Using the old week 4 as a base everything worked fine, there was some problems with connecting the lyrics backend to the backend due to URI miss match.<br> <strong>Fix:</strong> I just changed the ConfigMap and put the right route to the backend.</li>
+                    <li>Fever... I've been sick for the last 3 days with the flu and couldn't work on any assignment.<br> <strong>Fix:</strong> I pulled through and crunched through the work at midnight.</li>
+                </ul>
+                <p></p>
+            </div>
+         </div>
+        
+    
         
     </section>    
     <footer>
