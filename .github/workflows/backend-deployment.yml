@@ -24,6 +24,10 @@ jobs:
       - name: Push image
         run: docker push "$IMAGE"
 
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: "4"
+
       - name: Deploy to Rahti
         run: |
           oc login --token=${{ secrets.RAHTI_TOKEN }} --server=${{ secrets.RAHTI_SERVER }}
